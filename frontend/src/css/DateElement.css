@@ -1,0 +1,22 @@
+.date-element{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.date-element .day{
+    text-transform: uppercase;
+    text-shadow: -15px 5px 20px #c8a3d7;
+    color: #fff;
+    letter-spacing: -0.05em;
+    font-family: 'Anton', Arial, sans-serif;
+    user-select: none;
+    font-size: 4rem;
+    transition: all 0.25s ease-out;
+}
+.date-element .day:hover {
+    text-shadow: -20px 6px 15px #c8a3d7;
+}
+.date-element .date-full{
+    font-size: 1rem;
+}

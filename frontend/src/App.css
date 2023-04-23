@@ -1,0 +1,21 @@
+.App{
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background-color: #fdf8f9;
+}
+
+.App .add-task{
+    position: fixed;
+    bottom: 5rem;
+    right: 5rem;
+    border-radius: 10%;
+    background-color: #bb82ce;
+    padding: 0.75rem;
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.App .date-element{
+    padding-top: 3rem;
+}

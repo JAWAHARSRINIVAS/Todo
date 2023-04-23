@@ -1,0 +1,36 @@
+.todo-list{
+    margin: 5rem;
+    width: 75%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 25%;
+}
+
+.todo-list .todo-element{
+    width: 13.5rem;
+    height: 15rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+.todo-list .completed-element{
+    background-color: #cededa;
+}
+.todo-list .todo-element .menu{
+    display: flex;
+    justify-content: end;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.todo-list .todo-element .menu i{
+    cursor: pointer;
+}
+
+.todo-list .todo-element .task-detail{
+    text-align: justify;
+    padding: 2rem;
+}
+
