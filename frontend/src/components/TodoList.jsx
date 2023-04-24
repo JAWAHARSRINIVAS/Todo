@@ -1,7 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { store } from "../store";
 import '../css/TodoList.css'
 import CreateElement from "./CreateElement";
+import axios from "axios"
 
 function Todolist() {
 
@@ -16,7 +17,7 @@ function Todolist() {
     const complete = (task)=>{
         try {
             Todolist.map( (tsk)=>{
-                if(tsk.id === task.id){
+                if(tsk._id === task._id){
                     tsk.completed = !tsk.completed;
                 }
             })
@@ -30,7 +31,7 @@ function Todolist() {
     const delete_Handler = (task)=>{
         try {
             const updatedList = Todolist.filter((tsk)=>{
-                return tsk.id != task.id
+                return tsk._id != task._id
             })
             localStorage.setItem("Todolist",JSON.stringify(updatedList))
             dispatch({type:'Delete-task',payload:updatedList})
@@ -47,6 +48,19 @@ function Todolist() {
     //     }
     // }
 
+    useEffect( ()=>{
+        const fetchData = async()=>{
+            try {
+                const todo_list = await axios.get("http://localhost:5000/Todo");
+                dispatch({type:"set-tasks",payload:todo_list.data.tasks});
+                localStorage.setItem("Todolist",JSON.stringify(todo_list.data.tasks))
+            } catch (error) {
+                console.log("error "+error)
+            }
+        }
+        fetchData();
+    },[])
+
     function TodoElement(props)
     {
         return(
@@ -54,9 +68,9 @@ function Todolist() {
                 <div className="menu" >
                     <i onClick={()=>complete(props.taskobj)} className="fa-solid fa-square-check"></i>
                     <i onClick={()=> {
-                        setIsupdate(props.taskobj.id)
+                        setIsupdate(props.taskobj._id)
                     }} className="fa-regular fa-pen-to-square"></i>
-                    <i onClick={()=>delete_Handler} className="fa-solid fa-trash"></i>
+                    <i onClick={()=>delete_Handler(props.taskobj)} className="fa-solid fa-trash"></i>
                 </div>
                 <div className="task-detail">{props.taskobj.task}</div>
             </div>
@@ -66,9 +80,9 @@ function Todolist() {
     return (
         <div className="todo-list">
         { state.Todolist.map((stask)=>(
-            <div key={stask.id}>
-                <TodoElement key={stask.id} taskobj = {stask}></TodoElement>
-                {isupdate == stask.id && <CreateElement addTask={addTask} type="edit" task={stask} ></CreateElement>}
+            <div key={stask._id}>
+                <TodoElement key={stask._id} taskobj = {stask}></TodoElement>
+                {isupdate == stask._id && <CreateElement addTask={addTask} type="edit" task={stask} ></CreateElement>}
             </div>
         )) } 
 

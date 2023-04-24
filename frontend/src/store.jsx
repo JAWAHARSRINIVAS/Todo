@@ -17,6 +17,8 @@ export function StoreProvider(props)
                 return {...state , Todolist:action.payload};
             case 'Delete-task':
                 return {...state , Todolist:action.payload};
+            case 'set-tasks':
+                return {...state , Todolist:action.payload};
         }
     }   
 

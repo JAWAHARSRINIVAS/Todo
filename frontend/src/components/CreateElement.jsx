@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import '../css/CreateElement.css';
 import { store } from '../store';
+import axios from 'axios';
 
 const CreateElement= (props)=>{
     const {addTask , type} = props;
@@ -8,16 +9,14 @@ const CreateElement= (props)=>{
     const {Todolist} = state
     const[inputTask,setTask] = useState("");
 
-    const createTask = ()=>{
+    const createTask = async()=>{
         try{
             if(inputTask == ""){console.log("empty")}
-            const newtask = {
-                id:4,
-                task:inputTask,
-                completed:false
-            }
-            console.log(newtask)
-            Todolist.push(newtask)
+            const new_task = await axios.post("http://localhost:5000/Todo/create",{
+                task : inputTask
+            })
+            console.log(new_task)
+            Todolist.push(new_task.data.tasks)
             dispatch({type:'Add-Item' , payload:Todolist})
             localStorage.setItem("Todolist",JSON.stringify(Todolist) );
             addTask(false);
@@ -29,9 +28,15 @@ const CreateElement= (props)=>{
     }
     const editTask = ()=>{
         try {
-            Todolist.map( (tsk)=>{
-                if(tsk.id === props.task.id){
-                        tsk.task = inputTask;                   
+            Todolist.map( async(tsk)=>{
+                if(tsk._id === props.task._id){
+                        tsk.task = inputTask; 
+                        const updated_task = await axios.put("http://localhost:5000/Todo/update",{
+                            _id : props.task._id,
+                            task: props.task.task,
+                            completed:props.task.completed
+                        })          
+                                
                 }
             });
             localStorage.setItem("Todolist",JSON.stringify(Todolist));
